@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udp-server-deployment
+  labels:
+    app: udp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udp-server
+  template:
+    metadata:
+      labels:
+        app: udp-server
+    spec:
+      containers:
+      - name: udp-server
+        image: avcode613/udp-server:v4
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10001
+          protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udp-server-service
+  labels:
+    app: udp-server
+spec:
+  type: LoadBalancer
+  sessionAffinity: ClientIP
+  ports:
+  - port: 10001
+    protocol: UDP
+  selector:
+    app: udp-server

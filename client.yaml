@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udp-client-deployment
+  labels:
+    app: udp-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udp-client
+  template:
+    metadata:
+      labels:
+        app: udp-client 
+    spec:
+      containers:
+      - name: udp-client
+        image: avcode613/udp-client:v4
+        imagePullPolicy: Always
+        env:
+        - name: SERVER_ADDRESS
+          # Replace with ClusterIP/ServiceIP
+          value: "52.184.223.198"
